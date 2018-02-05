@@ -179,6 +179,7 @@ public class RepositoryAdmin {
     }
     
 //---------------------------------------------------------------------------------------//
+    //Träningstyp genom inmatat id
 
     public Traningstyp getTraningstypByTraningstypId(int id){
         Traningstyp tTraningstyp = null;
@@ -200,6 +201,8 @@ public class RepositoryAdmin {
         return tTraningstyp;
        
     }
+    
+    // Sal genom inmatat id
     public Sal getSalBySalId(int id){
          Sal sSal = null;
         String query = "TODO";
@@ -220,6 +223,7 @@ public class RepositoryAdmin {
         return sSal;
     }
     
+    //Anställda genom inmatat id
     public Anstalld getAnstalldByAnstalldId(int id){
          Anstalld aAnstalld = null;
         String query = "TODO";
@@ -231,7 +235,7 @@ public class RepositoryAdmin {
          Statement stmt = con1.createStatement();
          ResultSet rs = stmt.executeQuery("TODO");){
              while (rs.next()){
-                 aAnstalld = new Anstalld(rs.getInt("id"), rs.getNString("namn"), rs.getString("losen"),
+                 aAnstalld = new Anstalld(rs.getInt("id"), rs.getNString("aNamn"), rs.getString("losen"),
                          getBehorighetByAnstalldId(id), getPRegisterByAnstalldId(id));}
             }catch(Exception e){
             e.printStackTrace();
