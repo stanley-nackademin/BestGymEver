@@ -6,6 +6,7 @@ import DTO.Medlem;
 import DTO.Pass;
 import DTO.Person;
 import DTO.PersonalRegister;
+import DTO.Sal;
 import DTO.Traningstyp;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
@@ -167,7 +168,7 @@ public class RepositoryAdmin {
 
         while(rs.next()){
             int id = rs.getInt("id");
-            allaPass.add(new Pass(id, rs.getInt("privat"), rs.getDate("datum"), rs.getInt("deltagande"), 
+            allaPass.add(new Pass(id, rs.getBoolean("private"), rs.getDate("datum"), rs.getInt("deltagande"), 
                     getTraningstypByTraningstypId(id), getSalBySalId(id), getAnstalldByAnstalldId(id)));
         }
         }catch(Exception e){
@@ -180,14 +181,68 @@ public class RepositoryAdmin {
 //---------------------------------------------------------------------------------------//
 
     public Traningstyp getTraningstypByTraningstypId(int id){
+        Traningstyp tTraningstyp = null;
+        String query = "TODO";
+        
+        try (
+              Connection con1 = DriverManager.getConnection(p.getProperty("connectionString"),
+                         p.getProperty("name"),
+                         p.getProperty("password"));
+         Statement stmt = con1.createStatement();
+         ResultSet rs = stmt.executeQuery("TODO");){
+             while (rs.next()){
+                 tTraningstyp = new Traningstyp(rs.getInt("id"), rs.getString("namn"));
+             }
+            }catch(Exception e){
+            e.printStackTrace();
+            }
+        
+        return tTraningstyp;
         //TODO
     }
-    
     public Sal getSalBySalId(int id){
+         Sal sSal = null;
+        String query = "TODO";
+        
+        try (
+              Connection con1 = DriverManager.getConnection(p.getProperty("connectionString"),
+                         p.getProperty("name"),
+                         p.getProperty("password"));
+         Statement stmt = con1.createStatement();
+         ResultSet rs = stmt.executeQuery("TODO");){
+             while (rs.next()){
+                 sSal = new Sal(rs.getInt("id"), rs.getString("namn"));
+             }
+            }catch(Exception e){
+            e.printStackTrace();
+            }
+        
+        
+        
+        return null;
         //TODO
     }
     
     public Anstalld getAnstalldByAnstalldId(int id){
+         Anstalld aAnstalld = null;
+        String query = "TODO";
+        
+        try (
+              Connection con1 = DriverManager.getConnection(p.getProperty("connectionString"),
+                         p.getProperty("name"),
+                         p.getProperty("password"));
+         Statement stmt = con1.createStatement();
+         ResultSet rs = stmt.executeQuery("TODO");){
+             while (rs.next()){
+                 aAnstalld = new Anstalld(rs.getInt("id"), rs.getNString("namn"), rs.getString("losen"),
+                         getBehorighetByAnstalldId(id), getPRegisterByAnstalldId(id));}
+            }catch(Exception e){
+            e.printStackTrace();
+            }
+        
+        
+        
+        return null;
         //TODO
     }
 
