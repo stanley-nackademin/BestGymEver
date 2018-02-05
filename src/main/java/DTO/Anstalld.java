@@ -1,3 +1,5 @@
+package DTO;
+
 public class Anstalld {
     private int id;
     private String aNamn;

@@ -1,3 +1,5 @@
+package DTO;
+
 public class Person {
     private int id;
     private String namn;
