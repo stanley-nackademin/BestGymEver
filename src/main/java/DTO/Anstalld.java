@@ -4,18 +4,18 @@ public class Anstalld {
     private int id;
     private String aNamn;
     private String losen;
-    private int behörighet;
-    private int personalRegister;
+    private Behorighet behörighet;
+    private PersonalRegister pRegister;
 
     public Anstalld() {
     }
-
-    public Anstalld(int id, String aNamn, String losen, int behörighet, int personalRegister) {
+    
+    public Anstalld(int id, String aNamn, String losen, Behorighet behörighet, PersonalRegister pRegister) {
         this.id = id;
         this.aNamn = aNamn;
         this.losen = losen;
         this.behörighet = behörighet;
-        this.personalRegister = personalRegister;
+        this.pRegister = pRegister;
     }
 
     public int getId() {
@@ -42,21 +42,22 @@ public class Anstalld {
         this.losen = losen;
     }
 
-    public int getBehörighet() {
+    public Behorighet getBehörighet() {
         return behörighet;
     }
 
-    public void setBehörighet(int behörighet) {
+    public void setBehörighet(Behorighet behörighet) {
         this.behörighet = behörighet;
     }
 
-    public int getPersonalRegister() {
-        return personalRegister;
+    public PersonalRegister getpRegister() {
+        return pRegister;
     }
 
-    public void setPersonalRegister(int personalRegister) {
-        this.personalRegister = personalRegister;
+    public void setpRegister(PersonalRegister pRegister) {
+        this.pRegister = pRegister;
     }
+
     
     
 }
