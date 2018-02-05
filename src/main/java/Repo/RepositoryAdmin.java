@@ -198,7 +198,7 @@ public class RepositoryAdmin {
             }
         
         return tTraningstyp;
-        //TODO
+       
     }
     public Sal getSalBySalId(int id){
          Sal sSal = null;
@@ -217,10 +217,7 @@ public class RepositoryAdmin {
             e.printStackTrace();
             }
         
-        
-        
-        return null;
-        //TODO
+        return sSal;
     }
     
     public Anstalld getAnstalldByAnstalldId(int id){
@@ -242,8 +239,7 @@ public class RepositoryAdmin {
         
         
         
-        return null;
-        //TODO
+        return aAnstalld;
     }
 
 }
