@@ -1,3 +1,5 @@
+package DTO;
+
 public class Behorighet {
     private int id;
     private String namn;

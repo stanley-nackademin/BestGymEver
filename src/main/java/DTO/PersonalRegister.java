@@ -1,3 +1,5 @@
+package DTO;
+
 public class PersonalRegister {
     private int id;
     private String namn;

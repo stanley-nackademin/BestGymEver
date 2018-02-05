@@ -1,12 +1,13 @@
-public class Traningstyp {
+package DTO;
+
+public class Sal {
     private int id;
     private String namn;
 
-    
-    public Traningstyp() {
+    public Sal() {
     }
 
-    public Traningstyp(int id, String namn) {
+    public Sal(int id, String namn) {
         this.id = id;
         this.namn = namn;
     }
@@ -25,5 +26,5 @@ public class Traningstyp {
 
     public void setNamn(String namn) {
         this.namn = namn;
-    }  
+    }
 }
