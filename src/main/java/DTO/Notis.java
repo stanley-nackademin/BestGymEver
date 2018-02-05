@@ -1,3 +1,5 @@
+package DTO;
+
 public class Notis {
     private int id;
     private String kommentar;
@@ -44,7 +46,5 @@ public class Notis {
 
     public void setMedlem(Medlem medlem) {
         this.medlem = medlem;
-    }
-    
-    
+    }  
 }

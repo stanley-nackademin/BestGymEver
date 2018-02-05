@@ -1,3 +1,5 @@
+package DTO;
+
 public class Medlem {
     private int id;
     private String aNamn;
