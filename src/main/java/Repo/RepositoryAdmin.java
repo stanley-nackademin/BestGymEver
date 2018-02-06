@@ -167,7 +167,7 @@ public class RepositoryAdmin {
  //---------------------------------------------------------------------------------------//
     
     public List<Pass> getAllPass(){
-        List<Pass> allaPass = null;
+        List<Pass> allaPass = new ArrayList<>();
         String query = "Select * from Pass;";
  
         try (
@@ -180,7 +180,7 @@ public class RepositoryAdmin {
         while(rs.next()){
             int id = rs.getInt("id");
             allaPass.add(new Pass(id, rs.getBoolean("privat"), rs.getDate("datum"), rs.getInt("deltagande"), 
-                    getTraningstypByPassId(id), getSalByPassId(id), getAnstalldByPassId(id), getTidsLuckorByPassId(id))); //TODO kolla queries
+                    getTraningstypByPassId(id), getSalByPassId(id), getAnstalldByPassId(id), getTidsLuckorByPassId(id)));
         }
         }catch(Exception e){
             e.printStackTrace();
@@ -357,5 +357,47 @@ public class RepositoryAdmin {
         }
         
         return anstalld;
+    }
+//---------------------------------------------------------------------------------------//
+        public List<Traningstyp> getAllTraningstyper() {
+        List<Traningstyp> traningstyper = new ArrayList<>();
+        String query = "SELECT * FROM TräningsTyp;";
+ 
+        try (
+         Connection con1 = DriverManager.getConnection(p.getProperty("connectionString"),
+                         p.getProperty("name"),
+                         p.getProperty("password"));
+         Statement stmt = con1.createStatement();
+         ResultSet rs = stmt.executeQuery(query);){
+
+        while(rs.next()){
+            traningstyper.add(new Traningstyp(rs.getInt("id"), rs.getString("namn")));
+        }
+        }catch(Exception e){
+            e.printStackTrace();
+        }
+    
+        return traningstyper;
+    }
+//---------------------------------------------------------------------------------------//
+        public List<PersonalRegister> getAllPersonalRegister() {
+        List<PersonalRegister> personal = new ArrayList<>();
+        String query = "SELECT * FROM PersonalRegister;";
+ 
+        try (
+         Connection con1 = DriverManager.getConnection(p.getProperty("connectionString"),
+                         p.getProperty("name"),
+                         p.getProperty("password"));
+         Statement stmt = con1.createStatement();
+         ResultSet rs = stmt.executeQuery(query);){
+
+        while(rs.next()){
+            personal.add(new PersonalRegister(rs.getInt("id"), rs.getString("namn")));
+        }
+        }catch(Exception e){
+            e.printStackTrace();
+        }
+    
+        return personal;
     }
 }

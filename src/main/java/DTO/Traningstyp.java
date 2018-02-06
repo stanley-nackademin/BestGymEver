@@ -27,5 +27,9 @@ public class Traningstyp {
 
     public void setNamn(String namn) {
         this.namn = namn;
-    }  
+    }
+    
+    public void print(){
+        System.out.format("- %s\n", namn);
+    }
 }

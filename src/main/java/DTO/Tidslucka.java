@@ -41,5 +41,7 @@ public class Tidslucka {
         this.stop = stop;
     }
     
-    
+    public void print(){
+        System.out.format("Tid: %s - %s\n", start.toString(), stop.toString());
+    }
 }
