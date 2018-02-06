@@ -1,6 +1,7 @@
 package DTO;
 
 import java.util.Date;
+import java.util.List;
 
 public class Pass {
     private int id;
@@ -10,11 +11,12 @@ public class Pass {
     private Traningstyp traning;
     private Sal sal;
     private Anstalld anstalld;
+    private List<Tidslucka> tidslucka;
 
     public Pass() {
     }
 
-    public Pass(int id, boolean privat, Date datum, int deltagande, Traningstyp traning, Sal sal, Anstalld anstalld) {
+    public Pass(int id, boolean privat, Date datum, int deltagande, Traningstyp traning, Sal sal, Anstalld anstalld, List<Tidslucka> tidslucka) {
         this.id = id;
         this.privat = privat;
         this.datum = datum;
@@ -22,6 +24,7 @@ public class Pass {
         this.traning = traning;
         this.sal = sal;
         this.anstalld = anstalld;
+        this.tidslucka = tidslucka;
     }
 
     public int getId() {
@@ -79,5 +82,12 @@ public class Pass {
     public void setAnstalld(Anstalld anstalld) {
         this.anstalld = anstalld;
     }
-    
+
+    public List<Tidslucka> getTidslucka() {
+        return tidslucka;
+    }
+
+    public void setTidslucka(List<Tidslucka> tidslucka) {
+        this.tidslucka = tidslucka;
+    }
 }

@@ -29,3 +29,4 @@ BestGymEver.iml
 settings.properties
 src/main/resources/
 src/test/
+/target/
