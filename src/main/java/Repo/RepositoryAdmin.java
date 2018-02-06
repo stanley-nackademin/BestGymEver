@@ -154,7 +154,7 @@ public class RepositoryAdmin {
                                         //Pass
  //---------------------------------------------------------------------------------------//
     
-    public List<Pass> getAllPass(){
+   /* public List<Pass> getAllPass(){
         List<Pass> allaPass = null;
         String query = "TODO";
  
@@ -175,11 +175,11 @@ public class RepositoryAdmin {
         }
     
         return allaPass;
-    }
+    }*/
     
 //---------------------------------------------------------------------------------------//
 
-    public Traningstyp getTraningstypByTraningstypId(int id){
+    /*public Traningstyp getTraningstypByTraningstypId(int id){
         //TODO
     }
     
@@ -190,5 +190,5 @@ public class RepositoryAdmin {
     public Anstalld getAnstalldByAnstalldId(int id){
         //TODO
     }
-
+*/
 }
