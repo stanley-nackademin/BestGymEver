@@ -47,6 +47,12 @@ public class Medlem {
     public void setPerson(Person person) {
         this.person = person;
     }
-    
-    
+
+    @Override
+    public String toString() {
+        return "Medlem{" +
+                "id=" + id +
+                ", person=" + person.getNamn()+" "+person.getPersonNummer() +
+                '}';
+    }
 }

@@ -37,6 +37,11 @@ public class Person {
     public void setPersonNummer(String personNummer) {
         this.personNummer = personNummer;
     }
-    
-    
+
+    @Override
+    public String toString() {
+        return "namn='" + namn + '\'' +
+                ", personNummer='" + personNummer + '\'' +
+                '}';
+    }
 }
