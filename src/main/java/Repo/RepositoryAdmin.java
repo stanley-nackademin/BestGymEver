@@ -7,6 +7,7 @@ import DTO.Pass;
 import DTO.Person;
 import DTO.PersonalRegister;
 import DTO.Sal;
+import DTO.Tidslucka;
 import DTO.Traningstyp;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
@@ -46,7 +47,7 @@ public class RepositoryAdmin {
                          p.getProperty("name"),
                          p.getProperty("password"));
          Statement stmt = con1.createStatement();
-         ResultSet rs = stmt.executeQuery("TODO");){
+         ResultSet rs = stmt.executeQuery(query);){
 
         while(rs.next()){
             int id = rs.getInt("id");
@@ -179,15 +180,113 @@ public class RepositoryAdmin {
         while(rs.next()){
             int id = rs.getInt("id");
             allaPass.add(new Pass(id, rs.getBoolean("privat"), rs.getDate("datum"), rs.getInt("deltagande"), 
-                    getTraningstypByTraningstypId(id), getSalBySalId(id), getAnstalldByAnstalldId(id)));
+                    getTraningstypByPassId(id), getSalByPassId(id), getAnstalldByPassId(id), getTidsLuckorByPassId(id)));
         }
         }catch(Exception e){
             e.printStackTrace();
         }
-    
+        
         return allaPass;
     }
     
+//---------------------------------------------------------------------------------------//
+    public List<Tidslucka> getTidsLuckorByPassId(int id) {
+        List<Tidslucka> tidsluckor = new ArrayList<>();
+        String query = "select Tidslucka.id, Tidslucka.start, Tidslucka.stop from Tidslucka\n" +
+        "inner join Tidslucka_has_Pass ON Tidslucka_has_Pass.Tidslucka_id = Tidslucka.id\n" +
+        "inner join Pass on Pass.id = Tidslucka_has_Pass.Pass_id\n" +
+        "where Pass.id = ?;";
+
+    try(Connection con = DriverManager.getConnection(p.getProperty("connectionString"),
+        p.getProperty("name"),
+        p.getProperty("password"));
+        PreparedStatement pStmt = con.prepareStatement(query);){
+        pStmt.setString(1, id+"");
+        ResultSet rs = pStmt.executeQuery();
+
+        while(rs.next()){
+            tidsluckor.add(new Tidslucka(rs.getInt("id"), rs.getTime("start"), rs.getTime("stop")));
+        }
+        }catch(Exception e){
+            e.printStackTrace();
+        }
+        
+        return tidsluckor;
+    }
+
+
+ //---------------------------------------------------------------------------------------//
+    public Anstalld getAnstalldByPassId(int id) {
+        Anstalld anstalld = null;
+        String query = "INNER JOIN Pass ON Pass.Anställd_id = Anställd.id\n" +
+                        "where Pass.id = ?;";
+
+    try(Connection con = DriverManager.getConnection(p.getProperty("connectionString"),
+        p.getProperty("name"),
+        p.getProperty("password"));
+        PreparedStatement pStmt = con.prepareStatement(query);){
+        pStmt.setString(1, id+"");
+        ResultSet rs = pStmt.executeQuery();
+
+        while(rs.next()){
+            anstalld = new Anstalld(rs.getInt("id"), rs.getString("aNamn"), rs.getString("lösen"), getBehorighetByAnstalldId(id), getPRegisterByAnstalldId(id));
+        }
+        }catch(Exception e){
+            e.printStackTrace();
+        }
+        
+        return anstalld;
+    }
+
+
+ //---------------------------------------------------------------------------------------//
+    public Sal getSalByPassId(int id) {
+        Sal sal = null;
+        String query = "select Sal.id, Sal.namn, Sal.platser from Sal"
+                + "inner join Pass on Pass.Sal_id = Sal.id where Pass.id = ?";
+
+    try(Connection con = DriverManager.getConnection(p.getProperty("connectionString"),
+        p.getProperty("name"),
+        p.getProperty("password"));
+        PreparedStatement pStmt = con.prepareStatement(query);){
+        pStmt.setString(1, id+"");
+        ResultSet rs = pStmt.executeQuery();
+
+        while(rs.next()){
+           sal = new Sal(rs.getInt("id"), rs.getString("namn"), rs.getInt("platser"));
+        }
+        }catch(Exception e){
+            e.printStackTrace();
+        }
+        
+        return sal;
+    }
+
+//---------------------------------------------------------------------------------------//
+//---------------------------------------------------------------------------------------//
+    public Traningstyp getTraningstypByPassId(int id) {
+        Traningstyp traning = null;
+        String query = "select TräningsTyp.id, TräningsTyp.namn from TräningsTyp"
+                + "inner join Pass on TräningsTyp.id = Pass.TräningsTyp_id"
+                + "where Pass.id = ?";
+
+    try(Connection con = DriverManager.getConnection(p.getProperty("connectionString"),
+        p.getProperty("name"),
+        p.getProperty("password"));
+        PreparedStatement pStmt = con.prepareStatement(query);){
+        pStmt.setString(1, id+"");
+        ResultSet rs = pStmt.executeQuery();
+
+        while(rs.next()){
+           traning = new Traningstyp(rs.getInt("id"), rs.getString("namn"));
+        }
+        }catch(Exception e){
+            e.printStackTrace();
+        }
+        
+        return traning;
+    }
+
 //---------------------------------------------------------------------------------------//
 
     public Traningstyp getTraningstypByTraningstypId(int id){
@@ -195,12 +294,12 @@ public class RepositoryAdmin {
         String query = "SELECT TräningsTyp.id, TräningsTyp.namn FROM TräningsTyp\n" +
                         "WHERE TräningsTyp.id = ?;";
  
-        try (
-         Connection con1 = DriverManager.getConnection(p.getProperty("connectionString"),
-                         p.getProperty("name"),
-                         p.getProperty("password"));
-         Statement stmt = con1.createStatement();
-         ResultSet rs = stmt.executeQuery(query);){
+    try(Connection con = DriverManager.getConnection(p.getProperty("connectionString"),
+        p.getProperty("name"),
+        p.getProperty("password"));
+        PreparedStatement pStmt = con.prepareStatement(query);){
+        pStmt.setString(1, id+"");
+        ResultSet rs = pStmt.executeQuery();
 
         while(rs.next()){
             traningstyp = new Traningstyp(rs.getInt("id"), rs.getString("namn"));
@@ -217,15 +316,15 @@ public class RepositoryAdmin {
         String query = "SELECT Sal.id, Sal.namn FROM Sal \n" +
                         "WHERE Sal.id = ?;";
  
-        try (
-         Connection con1 = DriverManager.getConnection(p.getProperty("connectionString"),
-                         p.getProperty("name"),
-                         p.getProperty("password"));
-         Statement stmt = con1.createStatement();
-         ResultSet rs = stmt.executeQuery(query);){
+    try(Connection con = DriverManager.getConnection(p.getProperty("connectionString"),
+        p.getProperty("name"),
+        p.getProperty("password"));
+        PreparedStatement pStmt = con.prepareStatement(query);){
+        pStmt.setString(1, id+"");
+        ResultSet rs = pStmt.executeQuery();
 
         while(rs.next()){
-            sal = new Sal(rs.getInt("id"), rs.getString("namn"));
+            sal = new Sal(rs.getInt("id"), rs.getString("namn"), rs.getInt("platser"));
         }
         }catch(Exception e){
             e.printStackTrace();
@@ -237,15 +336,15 @@ public class RepositoryAdmin {
     public Anstalld getAnstalldByAnstalldId(int id){
         Anstalld anstalld = null;
         String query = "SELECT Anställd.id, Anställd.aNamn, Anställd.lösen, "
-                    + "Anställd.Behörighet_id, Anställd.PersonalRegister_id FROM Anställd\n" +
-                       "WHERE Anställd.id = 1;";
+                     + "Anställd.Behörighet_id, Anställd.PersonalRegister_id FROM Anställd\n" +
+                       "WHERE Anställd.id = ?;";
  
-        try (
-         Connection con1 = DriverManager.getConnection(p.getProperty("connectionString"),
-                         p.getProperty("name"),
-                         p.getProperty("password"));
-         Statement stmt = con1.createStatement();
-         ResultSet rs = stmt.executeQuery(query);){
+    try(Connection con = DriverManager.getConnection(p.getProperty("connectionString"),
+        p.getProperty("name"),
+        p.getProperty("password"));
+        PreparedStatement pStmt = con.prepareStatement(query);){
+        pStmt.setString(1, id+"");
+        ResultSet rs = pStmt.executeQuery();
 
         while(rs.next()){
             anstalld = new Anstalld(id, rs.getString("aNamn"), rs.getString("losen"), 
@@ -254,7 +353,7 @@ public class RepositoryAdmin {
         }catch(Exception e){
             e.printStackTrace();
         }
-    
+        
         return anstalld;
     }
 }
