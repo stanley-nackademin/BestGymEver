@@ -1,10 +1,15 @@
 
 package View;
 
+import DTO.Traningstyp;
+import Repo.RepositoryAdmin;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Scanner;
 
 public class ViewAdmin {
    Scanner sc;
+   RepositoryAdmin r = new RepositoryAdmin();
      
    //Personal
     private String personalNamn;
@@ -23,6 +28,10 @@ public class ViewAdmin {
     private String traningstyp;
     private String salId;
     private String anstalld;
+    private int varaktighet;
+    private String starttid;
+
+    List<Traningstyp> traningar = new ArrayList<>();
     
     public ViewAdmin(){
         sc = new Scanner(System.in);
@@ -63,15 +72,27 @@ public class ViewAdmin {
         privat = sc.nextInt();
         
         System.out.println("Ange Träningstyp");
-        //Visa Lista av träningstyper
+        traningar = r.getAllTraningstyper();
+        traningar.stream().forEach(t -> t.print());
         traningstyp = sc.nextLine();
         
-        System.out.println("Ange anställd: ");
-        //Visa lista på anställda
-        anstalld = sc.nextLine();
+        System.out.println("Ange datum: ÅÅÅÅ-MM-DD");
+        datum = sc.nextLine();
+        
+        System.out.println("Hur långt ska passet vara:");
+        System.out.println("(1)30min \n(2)60min \n(90)min");
+        varaktighet = sc.nextInt();
         
         System.out.println("Ange sal:");
         //Visa lista på tillängliga saler
+        //visa lista på tidsluckor till salen
+        salId = sc.nextLine();
+        System.out.println("Ange starttid: HH:MM:SS"); 
+        starttid = sc.nextLine();
+        
+        System.out.println("Ange anställd: ");
+        //Visa lista på tillgängliga anställda
+        anstalld = sc.nextLine();
         
         //kalla på stored procedure AddPass
     }
