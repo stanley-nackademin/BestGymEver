@@ -92,7 +92,7 @@ public class RepositoryAdmin {
        
     public List<Anstalld> getAllAnstallda() {
         List<Anstalld> allaAnstallda = new ArrayList<>();
-        String query = "SELECT * FROM Anställd";
+        String query = "SELECT * FROM Anställd;";
  
         try (
          Connection con1 = DriverManager.getConnection(p.getProperty("connectionString"),
@@ -128,7 +128,7 @@ public class RepositoryAdmin {
         ResultSet rs = pStmt.executeQuery();
 
         while(rs.next()){
-            behorighet = new Behorighet(rs.getInt("id"), rs.getString("namn"));
+            behorighet = new Behorighet(rs.getInt("id"), rs.getString("roll"));
         }
         }catch(Exception e){
             e.printStackTrace();
@@ -168,7 +168,7 @@ public class RepositoryAdmin {
     
     public List<Pass> getAllPass(){
         List<Pass> allaPass = null;
-        String query = "Select * from Pass";
+        String query = "Select * from Pass;";
  
         try (
          Connection con1 = DriverManager.getConnection(p.getProperty("connectionString"),
@@ -180,7 +180,7 @@ public class RepositoryAdmin {
         while(rs.next()){
             int id = rs.getInt("id");
             allaPass.add(new Pass(id, rs.getBoolean("privat"), rs.getDate("datum"), rs.getInt("deltagande"), 
-                    getTraningstypByPassId(id), getSalByPassId(id), getAnstalldByPassId(id), getTidsLuckorByPassId(id)));
+                    getTraningstypByPassId(id), getSalByPassId(id), getAnstalldByPassId(id), getTidsLuckorByPassId(id))); //TODO kolla queries
         }
         }catch(Exception e){
             e.printStackTrace();
@@ -205,7 +205,7 @@ public class RepositoryAdmin {
         ResultSet rs = pStmt.executeQuery();
 
         while(rs.next()){
-            tidsluckor.add(new Tidslucka(rs.getInt("id"), rs.getTime("start"), rs.getTime("stop")));
+            tidsluckor.add(new Tidslucka(rs.getInt("id"), rs.getTime("Start"), rs.getTime("Stop")));
         }
         }catch(Exception e){
             e.printStackTrace();
@@ -218,7 +218,9 @@ public class RepositoryAdmin {
  //---------------------------------------------------------------------------------------//
     public Anstalld getAnstalldByPassId(int id) {
         Anstalld anstalld = null;
-        String query = "INNER JOIN Pass ON Pass.Anställd_id = Anställd.id\n" +
+        String query = "select Anställd.id, Anställd.aNamn, Anställd.lösen, "
+                + "Anställd.Behörighet_id, Anställd.PersonalRegister_id from Anställd\n" +
+                        "INNER JOIN Pass ON Pass.Anställd_id = Anställd.id\n" +
                         "where Pass.id = ?;";
 
     try(Connection con = DriverManager.getConnection(p.getProperty("connectionString"),
@@ -242,8 +244,8 @@ public class RepositoryAdmin {
  //---------------------------------------------------------------------------------------//
     public Sal getSalByPassId(int id) {
         Sal sal = null;
-        String query = "select Sal.id, Sal.namn, Sal.platser from Sal"
-                + "inner join Pass on Pass.Sal_id = Sal.id where Pass.id = ?";
+        String query = "select Sal.id, Sal.namn, Sal.platser from Sal "
+                + "inner join Pass on Pass.Sal_id = Sal.id where Pass.id = ?;";
 
     try(Connection con = DriverManager.getConnection(p.getProperty("connectionString"),
         p.getProperty("name"),
@@ -266,9 +268,9 @@ public class RepositoryAdmin {
 //---------------------------------------------------------------------------------------//
     public Traningstyp getTraningstypByPassId(int id) {
         Traningstyp traning = null;
-        String query = "select TräningsTyp.id, TräningsTyp.namn from TräningsTyp"
-                + "inner join Pass on TräningsTyp.id = Pass.TräningsTyp_id"
-                + "where Pass.id = ?";
+        String query = "select TräningsTyp.id, TräningsTyp.namn from TräningsTyp "
+                + "inner join Pass on TräningsTyp.id = Pass.TräningsTyp_id "
+                + "where Pass.id = ?;";
 
     try(Connection con = DriverManager.getConnection(p.getProperty("connectionString"),
         p.getProperty("name"),
