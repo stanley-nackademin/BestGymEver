@@ -1,13 +1,18 @@
 import DTO.Medlem;
+import DTO.Pass;
+import Repo.RepositoryAdmin;
 
+import java.util.List;
 import java.util.Scanner;
 
 public class MemberMenu {
     private Repository repo;
+    private RepositoryAdmin repoAdmin;
     Medlem member = null;
 
     public MemberMenu() {
         repo = new Repository();
+        repoAdmin = new RepositoryAdmin();
     }
 
     public void mainMenu() {
@@ -65,6 +70,7 @@ public class MemberMenu {
     }
 
     private void showAvailableWorkouts() {
-
+        List<Pass> passes = repoAdmin.getAllPass();
+        passes.stream().forEach(System.out::println);
     }
 }
