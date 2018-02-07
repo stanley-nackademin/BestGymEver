@@ -16,30 +16,31 @@ import javax.swing.JTextField;
  */
 public class ViewReception {
     	//variabler
-	//private int medlemsID;
-	//private int passID;
-        JFrame ram;
-        JLabel LmedlemsID;
-        JLabel LpassID;
-        JTextField TmedlemsID;
-        JTextField TpassID;
-        
-        public void GUI() {
-            
-            LmedlemsID = new JLabel("Vad är ditt medlemsID? ");
-            LpassID = new JLabel("Vad är ditt passID? ");
-            TmedlemsID = new JTextField();
-            TpassID = new JTextField();
-        }
+	private int medlemsID;
+	private int passID;
+//        JFrame ram;
+//        JLabel LmedlemsID;
+//        JLabel LpassID;
+//        JTextField TmedlemsID;
+//        JTextField TpassID;
+//        
+//        public void GUI() {
+//            
+//            LmedlemsID = new JLabel("Vad är ditt medlemsID? ");
+//            LpassID = new JLabel("Vad är ditt passID? ");
+//            TmedlemsID = new JTextField();
+//            TpassID = new JTextField();
+//        }
 
 public void checkIn () {
-  
-	//ska ge en meny med en ruta där man kan fylla i sitt medlemsID samt sitt passID 
+
+    
+    
 	Scanner sc = new Scanner(System.in);
 	System.out.println("Vad är ditt medlemsID? ");
-	//LmedlemsID = sc.nextInt();
+	medlemsID = sc.nextInt();
 	System.out.println("Vad är ditt passID");
-   	//LpassID = sc.nextInt();
+   	passID = sc.nextInt();
 
 	//Här ska de komma en if som kollar om passet finns bokat. 
 	//Med hjälp av vår SP. ChechIn 
