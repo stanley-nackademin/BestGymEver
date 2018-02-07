@@ -30,3 +30,4 @@ settings.properties
 src/main/resources/
 src/test/
 /target/
+.DS_Store
