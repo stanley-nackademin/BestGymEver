@@ -1,5 +1,8 @@
 package View.GUI;
 
+import Controller.ControllerAdmin;
+import DTO.Anstalld;
+
 import javax.swing.*;
 import java.awt.*;
 
@@ -18,7 +21,6 @@ public class GUI_Panels {
 
         public GUI_Panels(GUI_Actions action){
             this.action = action;
-
         }
 
         public JPanel startSide() {

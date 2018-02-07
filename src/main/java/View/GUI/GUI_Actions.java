@@ -1,11 +1,15 @@
 package View.GUI;
 
+import Controller.ControllerAdmin;
+
 import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
+
 public class GUI_Actions extends JPanel implements ActionListener {
 
+    private ControllerAdmin CA;
     private GUI_Panels GUIPanels;
     private JPanel mainPanel;
 
@@ -30,9 +34,11 @@ public class GUI_Actions extends JPanel implements ActionListener {
 
     @Override
     public void actionPerformed(ActionEvent e) {
-        if(e.getSource().equals(GUIPanels.getLoginBtn()))
+        if (e.getSource().equals(GUIPanels.getLoginBtn())) {
             changePanel(GUIPanels.logedIn());
 
+
+        }
     }
 
 }
