@@ -2,6 +2,7 @@ public class Main {
     private MemberMenu memberMenu = new MemberMenu();
 
     Main() {
+
         memberMenu.mainMenu();
     }
 
