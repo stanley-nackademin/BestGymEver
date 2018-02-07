@@ -4,6 +4,7 @@
  */
 package View;
 
+import DTO.Bokning;
 import java.util.Scanner;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -33,9 +34,6 @@ public class ViewReception {
 //        }
 
 public void checkIn () {
-
-    
-    
 	Scanner sc = new Scanner(System.in);
 	System.out.println("Vad är ditt medlemsID? ");
 	medlemsID = sc.nextInt();
@@ -47,7 +45,5 @@ public void checkIn () {
 
 }
 
-    
-    
     
 }

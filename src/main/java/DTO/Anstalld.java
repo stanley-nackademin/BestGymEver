@@ -57,7 +57,7 @@ public class Anstalld {
     public void setpRegister(PersonalRegister pRegister) {
         this.pRegister = pRegister;
     }
-
+    
     
     
 }

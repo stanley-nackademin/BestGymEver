@@ -32,4 +32,9 @@ BestGymEver.iml
 settings.properties
 src/main/resources/
 src/test/
+<<<<<<< HEAD
+>>>>>>> master
+=======
+/target/
+.DS_Store
 >>>>>>> master
