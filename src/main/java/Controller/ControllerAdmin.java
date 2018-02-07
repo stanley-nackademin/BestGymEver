@@ -18,7 +18,7 @@ public class ControllerAdmin {
         List<Medlem> medlemmar = new ArrayList<>();
 
         medlemmar = ra.getAllMedlemmar();
-        medlem = medlemmar.stream().filter(c -> c.getaNamn().equalsIgnoreCase(name)).findFirst().orElse(null);
+            medlem = medlemmar.stream().filter(c -> c.getaNamn().equalsIgnoreCase(name)).findFirst().orElse(null);
 
         if(medlem != null)
             finns = true;
@@ -32,6 +32,7 @@ public class ControllerAdmin {
         int id = 0;
         List<Anstalld> personal = new ArrayList<>();
 
+        
         personal = ra.getAllAnstallda();
         anstalld = personal.stream().filter(c -> c.getaNamn().equalsIgnoreCase(name)).findFirst().orElse(null);
 

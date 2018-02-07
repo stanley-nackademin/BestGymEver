@@ -47,7 +47,7 @@ public class RepositoryReception {
         }
     }
     
-    public Pass getPassIdByBokningsId(int id) throws SQLException {
+    public Pass getPassIdByBokningsId(int id){
         Pass pass = null;
         String query = "Select Pass_id from Bokning "
                 + "inner join Pass on Pass.id = bokning.Pass_id"
@@ -83,14 +83,19 @@ public class RepositoryReception {
         PreparedStatement pStmt = con.prepareStatement(query);){
         pStmt.setString(1, id+"");
         ResultSet rs = pStmt.executeQuery();
-  
+        
+        
+        while (rs.next()) {
+            medlem = new Medlem(id, rs.getString("aNamn"), rs.getString("lösen"), ra.getPersonByMedlemId(id));
+        
+        }
   
   
   }     catch (SQLException ex) {  
             Logger.getLogger(RepositoryReception.class.getName()).log(Level.SEVERE, null, ex);
         }  
     
-    return null;
+    return medlem;
 
   }
 }
