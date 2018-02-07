@@ -3,13 +3,15 @@ package DTO;
 public class Sal {
     private int id;
     private String namn;
-
-    public Sal() {
-    }
+    private int platser;
 
     public Sal(int id, String namn) {
+    }
+
+    public Sal(int id, String namn, int platser) {
         this.id = id;
         this.namn = namn;
+        this.platser = platser;
     }
 
     public int getId() {
@@ -27,4 +29,13 @@ public class Sal {
     public void setNamn(String namn) {
         this.namn = namn;
     }
+
+    public int getPlatser() {
+        return platser;
+    }
+
+    public void setPlatser(int platser) {
+        this.platser = platser;
+    }
+    
 }
