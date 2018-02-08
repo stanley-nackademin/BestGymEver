@@ -48,12 +48,12 @@ public class ControllerReception {
     public boolean MatchMedlemId(int medlemsId) throws SQLException {
         boolean finns = false;
         Medlem medlemsid = null;
-        Pass bokningsidMedlem = null;//NYTT
+        Pass bokningsidMedlem = null; //NYTT
         
         int id = 0;
         List<Medlem> m = new ArrayList<>();
-        m = (List<Medlem>) rr.getMedlemIdByBokningsId(id);
-        
+          m = (List<Medlem>) rr.getMedlemIdByBokningsId(id);
+       
         medlemsid = m.get(id);
         bokningsidMedlem = (Pass) b.getMedlemmar();
         
