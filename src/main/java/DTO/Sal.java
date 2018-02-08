@@ -4,7 +4,7 @@ public class Sal {
     private int id;
     private String namn;
 
-    public Sal() {
+    public Sal(int id, String namn, int platser) {
     }
 
     public Sal(int id, String namn) {

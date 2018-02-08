@@ -1,6 +1,7 @@
 package DTO;
 
 import java.util.Date;
+import java.util.List;
 
 public class Pass {
     private int id;
@@ -11,7 +12,7 @@ public class Pass {
     private Sal sal;
     private Anstalld anstalld;
 
-    public Pass() {
+    public Pass(int id, boolean privat, java.sql.Date datum, int deltagande, Traningstyp traningstypByPassId, Sal salByPassId, Anstalld anstalldByPassId, List<Tidslucka> tidsLuckorByPassId) {
     }
 
     public Pass(int id, boolean privat, Date datum, int deltagande, Traningstyp traning, Sal sal, Anstalld anstalld) {

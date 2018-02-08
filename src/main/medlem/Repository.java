@@ -31,27 +31,25 @@ public class Repository {
         }
     }
 
-    public Medlem getMemberByLogin(String username, String password) {
-        Medlem member;
-        String sqlQuery = "select count(medlem.id) from medlem\n" +
-                "where medlem.aNamn = ? and medlem.lösen = binary ?";
+    public Medlem getMemberByLogin(String memberUsername, String memberPassword) {
+        Medlem member = null;
+        String sqlQuery = "select Medlem.Id, Medlem.aNamn from Medlem\n" +
+                "where Medlem.aNamn = ? and Medlem.lösen = binary ?";
 
         try (Connection con = DriverManager.getConnection(mysqlAddress, username, password);
              PreparedStatement stmt = con.prepareStatement(sqlQuery)) {
-            stmt.setString(1, username);
-            stmt.setString(2, password);
+            stmt.setString(1, memberUsername);
+            stmt.setString(2, memberPassword);
             try (ResultSet rs = stmt.executeQuery()) {
                 if (rs.next()) {
                     member = new Medlem();
-                    //member.
-                } else {
-                    member = null;
+                    member.setId(rs.getInt("id"));
+                    member.setaNamn(rs.getString("aNamn"));
                 }
             }
         } catch (SQLException e) {
-            System.out.println("Could not connect to database.");
+            e.printStackTrace();
         }
-        // TODO
-        return null;
+        return member;
     }
 }
