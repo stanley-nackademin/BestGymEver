@@ -11,7 +11,6 @@ import java.sql.*;
 import java.time.LocalDate;
 import java.util.List;
 import java.util.Properties;
-import java.util.Scanner;
 
 public class PTapplication {
 
@@ -23,23 +22,18 @@ public class PTapplication {
 
         setupConnection();
         printMedlemmar();
-        printMedlemsPass(1);
-        //viewer();
+        viewer();
 
     }
 
     private void viewer() {
 
-        Scanner sc = new Scanner(System.in);
         List<Anstalld> list = rp.getAllAnstallda();
         boolean inloggad = false;
         Anstalld user = null;
 
         String aNamn = JOptionPane.showInputDialog("Användarnamn: ");
         String pw = JOptionPane.showInputDialog("Lösen: ");
-
-        /*String aNamn = "jacked";
-        String pw = "brah";*/
 
         for(Anstalld a : list){
             if (aNamn.equalsIgnoreCase(a.getaNamn()) && pw.equalsIgnoreCase(a.getLosen())) {
@@ -92,7 +86,6 @@ public class PTapplication {
         int id = Integer.parseInt(JOptionPane.showInputDialog(null, "Vem du se (id)"));
         printNotiser(id);
         System.exit(0);
-
     }
 
     private void setupConnection() {
@@ -178,8 +171,6 @@ public class PTapplication {
                     ("Person.personnummer")+ "\n";
             rs.previous();
             while (rs.next()) {
-
-
 
                 txt+=  rs.getString("Notis.Kommentar")+ "\n";
             }
