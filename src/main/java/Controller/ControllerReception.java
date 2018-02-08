@@ -41,18 +41,18 @@ public class ControllerReception {
         return finns;
     }
 
-//public boolean matchAnstalldUsername(String name) throws SQLException {
-//        boolean finns = false;
-//        Anstalld anstalld = null;
-//        int id = 0;
-//        List<Anstalld> personal = new ArrayList<>();
-//
-//        personal = ra.getAllAnstallda();
-//        anstalld = personal.stream().filter(c -> c.getaNamn().equalsIgnoreCase(name)).findFirst().orElse(null);
-//
-//        if(anstalld != null)
-//            finns = true;
-//
-//        return finns;
-//    }
+    public boolean MatchMedlemIdByBokningsId(int medlemsId) throws SQLException {
+        boolean finns = false;
+        Medlem medlemsid = null;
+        int id = 0;
+        List<Medlem> m = new ArrayList<>();
+        m = (List<Medlem>) rr.getMedlemIdByBokningsId(id);
+        
+        medlemsid = m.get(id);
+
+        if(medlemsid != null)
+            finns = true;
+
+        return finns;
+    }
 }
