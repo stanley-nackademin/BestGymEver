@@ -28,7 +28,7 @@ public class RepositoryAdmin {
     
     public RepositoryAdmin(){
         try {
-            p.load(new FileInputStream("/Users/marcuskarlberg/Desktop/Gruppuppgift/BestGymEver.properties"));
+            p.load(new FileInputStream("/Users/amanda/Documents/GitHub/BestGymEver/src/main/java/BestGymEver.properties"));
         } catch (FileNotFoundException e1) {
             e1.printStackTrace();
         } catch (IOException e2) {
