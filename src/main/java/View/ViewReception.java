@@ -45,6 +45,8 @@ public void displayReceptionMenu() throws SQLException {
         System.out.println("Du är nu inbokad");
 
 }
+public static void main(String[] args){
+    ViewReception kör = new ViewReception();
 
-    
+    }  
 }
