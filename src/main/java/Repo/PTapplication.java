@@ -1,11 +1,14 @@
 package Repo;
 
+import DTO.Anstalld;
 import DTO.Medlem;
 
+import javax.swing.*;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.sql.*;
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Properties;
 
@@ -19,10 +22,70 @@ public class PTapplication {
 
         setupConnection();
         printMedlemmar();
-        //insertNotis("bra javadelen va", 1, 3);
-        printNotiser(3);
-        printMedlemsPass(1);
+        viewer();
 
+    }
+
+    private void viewer() {
+
+        List<Anstalld> list = rp.getAllAnstallda();
+        boolean inloggad = false;
+        Anstalld user = null;
+
+        String aNamn = JOptionPane.showInputDialog("Användarnamn: ");
+        String pw = JOptionPane.showInputDialog("Lösen: ");
+
+        for(Anstalld a : list){
+            if (aNamn.equalsIgnoreCase(a.getaNamn()) && pw.equalsIgnoreCase(a.getLosen())) {
+                inloggad = true;
+                user = a;
+                break;
+                }
+            }
+            if(!inloggad){
+                JOptionPane.showMessageDialog(null, "Who da fakk r u", "gtfo", JOptionPane.ERROR_MESSAGE);
+                System.exit(0);
+            }
+
+            Object[] options = {"Se notiser", "Se pass", "Skriv notis"};
+            int i = JOptionPane.showOptionDialog(null, "Vad du göra", "Inloggad",
+                    JOptionPane.YES_NO_CANCEL_OPTION,
+                    JOptionPane.QUESTION_MESSAGE, null, options, options[2]);
+            switch(i){
+                case 0 :
+                    caseSeeNotis();
+                    break;
+                case 1 :
+                    caseSeePass();
+                    break;
+                case 2 :
+                    caseInsert(user);
+            }
+
+    }
+
+    private void caseInsert(Anstalld user) {
+
+        int aID = user.getId();
+        printMedlemmar();
+        int mID = Integer.parseInt(JOptionPane.showInputDialog(null, "Vem insert (id)"));
+        String kommentar = JOptionPane.showInputDialog("Skriv kommentar");
+        insertNotis(kommentar, aID, mID);
+        System.exit(0);
+    }
+
+    private void caseSeePass() {
+
+        int id = Integer.parseInt(JOptionPane.showInputDialog(null, "Vem du se (id)"));
+        printMedlemsPass(id);
+        System.exit(0);
+    }
+
+    private void caseSeeNotis() {
+
+        int id = Integer.parseInt(JOptionPane.showInputDialog(null, "Vem du se (id)"));
+        printNotiser(id);
+        System.exit(0);
     }
 
     private void setupConnection() {
@@ -68,7 +131,12 @@ public class PTapplication {
             rs.previous();
             while (rs.next()) {
 
-                txt+=  rs.getString("TräningsTyp.namn")+" "+ rs.getString("Pass.Datum")+"\n";
+                LocalDate nu = LocalDate.now();
+                String datum = rs.getString("Pass.Datum");
+                LocalDate passTid = LocalDate.parse(datum);
+
+                if(nu.isAfter(passTid))
+                txt+=  rs.getString("TräningsTyp.namn")+" "+ datum +"\n";
                 }
             }
             catch (SQLException e){
