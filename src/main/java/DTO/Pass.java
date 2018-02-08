@@ -1,5 +1,6 @@
 package DTO;
 
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 
@@ -13,7 +14,7 @@ public class Pass {
     private Anstalld anstalld;
     private List<Tidslucka> tidslucka;
 
-    public Pass() {
+    public Pass(int id, boolean privat, java.sql.Date datum, int deltagande, Traningstyp traningstypByTraningstypId, Sal salBySalId, Anstalld anstalldByAnstalldId) {
     }
 
     public Pass(int id, boolean privat, Date datum, int deltagande, Traningstyp traning, Sal sal, Anstalld anstalld, List<Tidslucka> tidslucka) {
@@ -73,6 +74,12 @@ public class Pass {
 
     public void setSal(Sal sal) {
         this.sal = sal;
+    }
+    
+    public String getDateString(){
+        String stringDate = null; 
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+        return stringDate = sdf.format(datum);
     }
 
     public Anstalld getAnstalld() {

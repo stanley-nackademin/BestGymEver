@@ -37,5 +37,7 @@ public class Sal {
     public void setPlatser(int platser) {
         this.platser = platser;
     }
-    
+    public void print(){
+        System.out.format("- %s\n", namn);
+    }
 }
