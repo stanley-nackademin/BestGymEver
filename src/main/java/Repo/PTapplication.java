@@ -8,6 +8,7 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.sql.*;
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Properties;
 import java.util.Scanner;
@@ -22,7 +23,8 @@ public class PTapplication {
 
         setupConnection();
         printMedlemmar();
-        viewer();
+        printMedlemsPass(1);
+        //viewer();
 
     }
 
@@ -64,8 +66,6 @@ public class PTapplication {
                     break;
                 case 2 :
                     caseInsert(user);
-
-
             }
 
     }
@@ -138,7 +138,12 @@ public class PTapplication {
             rs.previous();
             while (rs.next()) {
 
-                txt+=  rs.getString("TräningsTyp.namn")+" "+ rs.getString("Pass.Datum")+"\n";
+                LocalDate nu = LocalDate.now();
+                String datum = rs.getString("Pass.Datum");
+                LocalDate passTid = LocalDate.parse(datum);
+
+                if(nu.isAfter(passTid))
+                txt+=  rs.getString("TräningsTyp.namn")+" "+ datum +"\n";
                 }
             }
             catch (SQLException e){
@@ -173,6 +178,8 @@ public class PTapplication {
                     ("Person.personnummer")+ "\n";
             rs.previous();
             while (rs.next()) {
+
+
 
                 txt+=  rs.getString("Notis.Kommentar")+ "\n";
             }
