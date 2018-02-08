@@ -34,24 +34,13 @@ public class ControllerReception {
         p = (List<Pass>) rr.getPassIdByBokningsId(id);
         
         passid = (Pass) p.get(id); // den måste getID på något sätt. 
-        
-        
-               // medlem = medlemmar.stream().filter(c -> c.getaNamn().equalsIgnoreCase(name)).findFirst().orElse(null);
-        
-        //FORTSÄTTNING FÖLJER!!!!!!!!!!!!!!!!!!!!!!!!!
-        
-//        bokningar = rn.get
-//        
-//        person = rn.getPersonByMedlemId(id);
-//
+       
         if(passid != null)
             finns = true;
 
         return finns;
     }
-//    
-//    
-//
+
 //public boolean matchAnstalldUsername(String name) throws SQLException {
 //        boolean finns = false;
 //        Anstalld anstalld = null;
