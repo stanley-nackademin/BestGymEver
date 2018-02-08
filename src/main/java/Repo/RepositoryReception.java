@@ -46,7 +46,7 @@ public class RepositoryReception {
             e2.printStackTrace();
         }
     }
-    
+ 
     public Pass getPassIdByBokningsId(int id){
         Pass pass = null;
         String query = "Select Pass_id from Bokning "
@@ -75,7 +75,8 @@ public class RepositoryReception {
     }
   public Medlem getMedlemIdByBokningsId(int id){
       Medlem medlem = null;
-      String query = "";
+      String query = "Select Medlem_id from Bokning inner join Medlem on Medlem.id = bokning.Medlem_id"
+              + "where bokning.Medlem_is = ?";
   
       try(Connection con = DriverManager.getConnection(p.getProperty("connectionString"),
         p.getProperty("name"),
