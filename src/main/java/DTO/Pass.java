@@ -1,5 +1,6 @@
 package DTO;
 
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 
@@ -73,6 +74,12 @@ public class Pass {
 
     public void setSal(Sal sal) {
         this.sal = sal;
+    }
+    
+    public String getDateString(){
+        String stringDate = null; 
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+        return stringDate = sdf.format(datum);
     }
 
     public Anstalld getAnstalld() {

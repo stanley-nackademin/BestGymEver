@@ -5,7 +5,7 @@ public class Sal {
     private String namn;
     private int platser;
 
-    public Sal(int id, String namn) {
+    public Sal() {
     }
 
     public Sal(int id, String namn, int platser) {
@@ -37,5 +37,7 @@ public class Sal {
     public void setPlatser(int platser) {
         this.platser = platser;
     }
-    
+    public void print(){
+        System.out.format("- %s\n", namn);
+    }
 }

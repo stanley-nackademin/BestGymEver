@@ -1,32 +1,18 @@
 
 package View;
 
-<<<<<<< Updated upstream
-import DTO.IncheckedPeople;
-import Repo.RepositoryAdmin;
-
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.IOException;
-import java.sql.*;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Properties;
-import java.util.Scanner;
-
-public class ViewAdmin {
-    public void displayMenu(){
-    Scanner sc = new Scanner(System.in);
-
-=======
 import Controller.ControllerAdmin;
 import DTO.Medlem;
+import DTO.Pass;
+import DTO.Sal;
+import DTO.Tidslucka;
 import DTO.Traningstyp;
 import Repo.RepositoryAdmin;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
+import java.util.stream.Collectors;
 
 public class ViewAdmin {
    Scanner sc;
@@ -37,6 +23,7 @@ public class ViewAdmin {
     private String personalNamn;
     private String aNamnPersonal;
     private String losenPersonal;
+    private int behorighet;
 
     //Medlem
     private String namn;
@@ -53,6 +40,8 @@ public class ViewAdmin {
     private String anstalld;
     private int varaktighet;
     private String starttid;
+    private List<Sal> allaSaler;
+    private List<Pass> allaPass;
 
     List<Traningstyp> traningar = new ArrayList<>();
     
@@ -60,7 +49,7 @@ public class ViewAdmin {
         sc = new Scanner(System.in);
     }
 //----------------------------------------------------------------------------//     
-    public void displayAdminMenu(){
+    public void displayAdminMenu() throws SQLException{   
         Menu: while(true) { //label. hoppar direct ut från lopen.
             System.out.println(
                 "\n*** Meny: ***\n" +
@@ -73,13 +62,13 @@ public class ViewAdmin {
 
             switch (val) {
             case 1:
-              ;
+              AddPassView();
               break;
             case 2:
-              ;
+              AddMedlemView();
               break;
             case 3:
-              ;
+              AddAnstalldView();
             case 4:
               break Menu;
             default:
@@ -88,48 +77,72 @@ public class ViewAdmin {
             }
         }
     }
-    
-    public void AddPassView(){
-        
-    }
-    public void AddMedlemView(){
-        
-    }
-    public void AddAnstalldView(){
-        
-    }
-    
-//----------------------------------------------------------------------------//
+//----------------------------------------------------------------------------//      
     public void AddPassView(){
         System.out.println("Ange om passet ska vara privat:");
         System.out.println("(1)JA \n(0)NEJ");
         privat = sc.nextInt();
         
+        System.out.println("Du valde privat: " + privat);
+        
         System.out.println("Ange Träningstyp");
         traningar = r.getAllTraningstyper();
         traningar.forEach(t -> t.print());
-        sc.next();
+        sc.nextLine();
         traningstyp = sc.nextLine();
         
-        System.out.println("Ange datum: ÅÅÅÅ-MM-DD");
-        datum = sc.nextLine();
+        System.out.println("Träningstypen vald: " + traningstyp);
         
         System.out.println("Hur långt ska passet vara:");
         System.out.println("(1)30min \n(2)60min \n(3)90min");
         varaktighet = sc.nextInt();
+
+        System.out.println("Du valde: " + varaktighet);
+        
+        System.out.println("Ange datum för passet: ÅÅÅÅ-MM-DD");
+        sc.nextLine();
+        datum = sc.nextLine();
+        
+         System.out.println("Du valde datumet: " + datum);
         
         System.out.println("Ange sal:");
-        //Visa lista på saler
-        //visa lista på tidsluckor till salen
+        allaSaler = r.getAllSal();
+        allaSaler.forEach(s -> s.print());
         salId = sc.nextLine();
+        
+        System.out.println("Du valde salen: " + salId);
+        
+        //Visar tagna tidsluckor i den specefika salen på det specefika datumet
+        System.out.println("Upptagna tider i sal:" + salId + " Datum: " + datum);
+        List<Tidslucka> tidsluckor = new ArrayList<>();
+        tidsluckor = c.getTidsluckorBySalIdDate(datum, salId);
+        tidsluckor.forEach(t -> t.print());
+        
         System.out.println("Ange starttid: HH:MM:SS"); 
         starttid = sc.nextLine();
         
-        System.out.println("Ange anställd: NAMN");
-        //Visa lista på tillgängliga anställda
-        anstalld = sc.nextLine();
+        System.out.println("Du valde startid: " + starttid);
         
-        //kalla på stored procedure AddPass
+        while(c.checkTimeClash(datum, starttid, varaktighet, salId)){ 
+            System.out.println("Tiden är upptagen...Försök med en annan tid");
+            starttid = sc.nextLine();
+        }
+        System.out.println("Tiden accepterad");
+        
+        System.out.println("Ange anställd: NAMN");
+        personalNamn = sc.nextLine();
+        
+        System.out.println("Du valde Anställde: " + personalNamn);
+
+        while(c.checkavailability(personalNamn, datum, starttid, varaktighet)){
+            System.out.println("Den anställde är upptagen..Försök igen");
+            personalNamn = sc.nextLine();
+        }
+        System.out.println("Du valde Anställde: " + personalNamn);
+        
+        String verdict = null;
+        verdict = r.addPass(c.getTraningsId(traningstyp), privat, c.getSalId(salId), c.getAnstaldId(personalNamn), datum, starttid, c.getStoptid(starttid, varaktighet));
+        System.out.println(verdict);
     }
 //----------------------------------------------------------------------------//    
     public void AddMedlemView() throws SQLException{
@@ -150,7 +163,7 @@ public class ViewAdmin {
         System.out.println("Ange lösenord");
         losen = sc.nextLine();
         
-        //TODO Kalla på Stored procedure Medlem
+        r.addMedlem(namn, pNummer, aNamn, losen);
         System.out.println("Du är nu en medlem!");
     }
 //----------------------------------------------------------------------------//    
@@ -169,50 +182,12 @@ public class ViewAdmin {
         System.out.println("Ange lösenord: ");
         losenPersonal = sc.nextLine();
         
-        //TODO Kalla på SP Add Anställd
+        System.out.println("Ange behörighet");
+        //TODO visa behörighetslista
+        behorighet = sc.nextInt();
+        
+        r.addAnstalld(personalNamn, aNamnPersonal, losenPersonal, behorighet);
         System.out.println("Du är nu Anställd!");
     }
-//----------------------------------------------------------------------------//
-}
-public static class RepositoryAnstalld {
-
-    Properties p = new Properties();
-    RepositoryAdmin ra = new RepositoryAdmin();
-
-    public RepositoryAnstalld() {
-        try {
-            p.load(new FileInputStream("bestGymEver.properties"));
-        } catch (FileNotFoundException e1) {
-            e1.printStackTrace();
-        } catch (IOException e2) {
-            e2.printStackTrace();
-        }
-    }
-
-    protected List<IncheckedPeople> getAllInchecks(){
-
-        List<IncheckedPeople> temp = new ArrayList<>();
-
-        try (
-                Connection con = DriverManager.getConnection(p.getProperty("connectionString"),
-                        p.getProperty("name"),
-                        p.getProperty("password"));
-                Statement stnmt = con.createStatement();
-                ResultSet rs = stnmt.executeQuery("select * from IncheckedPeople")
-        ){
-
-            while(rs.next()){
-
-
-
-            }
-
-
-        }
-         catch (SQLException e) {
-            e.printStackTrace();
-        }
-        return temp;
-    }
-
+//----------------------------------------------------------------------------//  
 }
