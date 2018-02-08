@@ -550,7 +550,7 @@ public class RepositoryAdmin {
                 e2.printStackTrace();
             }
 
-        return "*** Pass was successfully added to BestGymEverPinkGroup Database. ***";
+        return "\n*** Pass was successfully added to BestGymEverPinkGroup Database. ***";
 
     }
     //------------------------------------------------------------------------------------//

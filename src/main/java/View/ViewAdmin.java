@@ -83,8 +83,6 @@ public class ViewAdmin {
         System.out.println("(1)JA \n(0)NEJ");
         privat = sc.nextInt();
         
-        System.out.println("Du valde privat: " + privat);
-        
         System.out.println("Ange Träningstyp");
         traningar = r.getAllTraningstyper();
         traningar.forEach(t -> t.print());
@@ -93,19 +91,17 @@ public class ViewAdmin {
         
         System.out.println("Träningstypen vald: " + traningstyp);
         
-        System.out.println("Hur långt ska passet vara:");
+        System.out.println("\nHur långt ska passet vara:");
         System.out.println("(1)30min \n(2)60min \n(3)90min");
         varaktighet = sc.nextInt();
-
-        System.out.println("Du valde: " + varaktighet);
         
-        System.out.println("Ange datum för passet: ÅÅÅÅ-MM-DD");
+        System.out.println("\nAnge datum för passet: ÅÅÅÅ-MM-DD");
         sc.nextLine();
         datum = sc.nextLine();
         
          System.out.println("Du valde datumet: " + datum);
         
-        System.out.println("Ange sal:");
+        System.out.println("\nAnge sal:");
         allaSaler = r.getAllSal();
         allaSaler.forEach(s -> s.print());
         salId = sc.nextLine();
@@ -113,7 +109,7 @@ public class ViewAdmin {
         System.out.println("Du valde salen: " + salId);
         
         //Visar tagna tidsluckor i den specefika salen på det specefika datumet
-        System.out.println("Upptagna tider i sal:" + salId + " Datum: " + datum);
+        System.out.println("\n*** Upptagna tider i sal:" + salId + " Datum: " + datum + " ***");
         List<Tidslucka> tidsluckor = new ArrayList<>();
         tidsluckor = c.getTidsluckorBySalIdDate(datum, salId);
         tidsluckor.forEach(t -> t.print());
@@ -121,18 +117,19 @@ public class ViewAdmin {
         System.out.println("Ange starttid: HH:MM:SS"); 
         starttid = sc.nextLine();
         
-        System.out.println("Du valde startid: " + starttid);
+        System.out.println("Du valde startiden: " + starttid);
         
         while(c.checkTimeClash(datum, starttid, varaktighet, salId)){ 
             System.out.println("Tiden är upptagen...Försök med en annan tid");
             starttid = sc.nextLine();
         }
-        System.out.println("Tiden accepterad");
+        System.out.println("*** Tiden accepterad ***");
         
-        System.out.println("Ange anställd: NAMN");
+        System.out.println("Personal:");
+        r.getAllAnstallda().forEach(a -> a.getpRegister().print());
+        
+        System.out.println("\nVälj personal till Passet: NAMN");
         personalNamn = sc.nextLine();
-        
-        System.out.println("Du valde Anställde: " + personalNamn);
 
         while(c.checkavailability(personalNamn, datum, starttid, varaktighet)){
             System.out.println("Den anställde är upptagen..Försök igen");
@@ -183,7 +180,7 @@ public class ViewAdmin {
         losenPersonal = sc.nextLine();
         
         System.out.println("Ange behörighet");
-        //TODO visa behörighetslista
+        System.out.println("(1) - Admin \n(2) - PT \n(3) - Receptionist\n");
         behorighet = sc.nextInt();
         
         r.addAnstalld(personalNamn, aNamnPersonal, losenPersonal, behorighet);
