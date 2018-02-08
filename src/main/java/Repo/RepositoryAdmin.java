@@ -31,7 +31,7 @@ public class RepositoryAdmin {
     
     public RepositoryAdmin(){
         try {
-            p.load(new FileInputStream("/Users/marcuskarlberg/Desktop/Gruppuppgift/BestGymEver.properties"));
+            p.load(new FileInputStream("bestGymEver.properties"));
         } catch (FileNotFoundException e1) {
             e1.printStackTrace();
         } catch (IOException e2) {
@@ -50,7 +50,7 @@ public class RepositoryAdmin {
                          p.getProperty("name"),
                          p.getProperty("password"));
          Statement stmt = con1.createStatement();
-         ResultSet rs = stmt.executeQuery(query);){
+         ResultSet rs = stmt.executeQuery(query)){
 
         while(rs.next()){
             int id = rs.getInt("id");
@@ -95,7 +95,7 @@ public class RepositoryAdmin {
        
     public List<Anstalld> getAllAnstallda() {
         List<Anstalld> allaAnstallda = new ArrayList<>();
-        String query = "SELECT * FROM Anställd;";
+        String query = "SELECT * FROM Anställd";
  
         try (
          Connection con1 = DriverManager.getConnection(p.getProperty("connectionString"),
@@ -341,9 +341,9 @@ public class RepositoryAdmin {
     public Anstalld getAnstalldByAnstalldId(int id){
         Anstalld anstalld = null;
         String query = "SELECT Anställd.id, Anställd.aNamn, Anställd.lösen, "
-                     + "Anställd.Behörighet_id, Anställd.PersonalRegister_id FROM Anställd\n" +
+                     + "Anställd.Behörighet_id, Anställd.PersonalRegister_id FROM Anställd " +
                        "WHERE Anställd.id = ?;";
- 
+
     try(Connection con = DriverManager.getConnection(p.getProperty("connectionString"),
         p.getProperty("name"),
         p.getProperty("password"));
@@ -352,13 +352,13 @@ public class RepositoryAdmin {
         ResultSet rs = pStmt.executeQuery();
 
         while(rs.next()){
-            anstalld = new Anstalld(id, rs.getString("aNamn"), rs.getString("losen"), 
+            anstalld = new Anstalld(id, rs.getString("aNamn"), rs.getString("losen"),
                     getBehorighetByAnstalldId(id), getPRegisterByAnstalldId(id));
         }
         }catch(Exception e){
             e.printStackTrace();
         }
-        
+
         return anstalld;
     }
 //---------------------------------------------------------------------------------------//
@@ -449,7 +449,7 @@ public class RepositoryAdmin {
 //---------------------------------------------------------------------------------------//
         public Tidslucka getTidsluckaByTidsluckaId(int id){
         Tidslucka tidslucka = null;
-        String query = "SELECT * from Tidslucka\n" +
+        String query = "SELECT * from Tidslucka " +
                         " where Tidslucka.id = ?;";
  
     try(Connection con = DriverManager.getConnection(p.getProperty("connectionString"),
